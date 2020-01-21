@@ -6,3 +6,6 @@ node_modules/
 public/
 .deploy*/
 .ipynb_checkpoints/
+.idea/
+*.txt
+/kmeans_user.py
