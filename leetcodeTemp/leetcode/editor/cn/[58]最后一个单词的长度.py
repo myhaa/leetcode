@@ -18,5 +18,24 @@
 # leetcode submit region begin(Prohibit modification and deletion)
 class Solution:
     def lengthOfLastWord(self, s: str) -> int:
-        pass
+        len_s = len(s)
+        if ' ' not in s:
+            return len_s
+        tmp = ''
+        for i in range(len_s-1, -1, -1):
+            if s[i] != ' ':
+                tmp += s[i]
+            elif tmp == '':
+                continue
+            else:
+                break
+        return len(tmp)
 # leetcode submit region end(Prohibit modification and deletion)
+
+
+if __name__ == "__main__":
+    test = Solution()
+    print(test.lengthOfLastWord("Hello World"))
+    print(test.lengthOfLastWord("Hello "))
+    print(test.lengthOfLastWord("b  a  "))
+    print(test.lengthOfLastWord("   "))
