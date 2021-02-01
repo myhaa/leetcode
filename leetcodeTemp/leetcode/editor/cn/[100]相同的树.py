@@ -64,7 +64,6 @@ class Solution:
                         stack.append(tmp.left)
                     else:
                         pass
-
             return left
         left = dfs(p)
         right = dfs(q)
