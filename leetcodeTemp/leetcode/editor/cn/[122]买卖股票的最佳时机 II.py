@@ -43,12 +43,21 @@
 from typing import List
 
 # leetcode submit region begin(Prohibit modification and deletion)
+# class Solution:
+#     def maxProfit(self, prices: List[int]) -> int:
+#         i, j = 0, 0-prices[0]
+#         for x in prices:
+#             tmp1 = max(i, j+x)  # 第x天手上无股票
+#             tmp2 = max(i-x, j)  # 第x天手上有股票
+#             i, j = tmp1, tmp2
+#         return i
+
+
+# 贪心
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        i, j = 0, 0-prices[0]
-        for x in prices:
-            tmp1 = max(i, j+x)  # 第x天手上无股票
-            tmp2 = max(i-x, j)  # 第x天手上有股票
-            i, j = tmp1, tmp2
-        return i
+        res = 0
+        for i in range(len(prices)-1):
+            res += max(0, prices[i+1]-prices[i])
+        return res
 # leetcode submit region end(Prohibit modification and deletion)
