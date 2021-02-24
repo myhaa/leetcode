@@ -17,15 +17,28 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+
+# 迭代
+# class Solution:
+#     def reverseList(self, head: ListNode) -> ListNode:
+#         res = None
+#         cur = head
+#         while cur:
+#             tmp = cur.next
+#             cur.next = res
+#             res = cur
+#             cur = tmp
+#         return res
+
+# 递归
 class Solution:
     def reverseList(self, head: ListNode) -> ListNode:
-        res = None
-        cur = head
-        while cur:
-            tmp = cur.next
-            cur.next = res
-            res = cur
-            cur = tmp
+        if not head or not head.next:
+            return head
+        res = self.reverseList(head.next)
+        head.next.next = head
+        head.next = None
         return res
+
 
 # leetcode submit region end(Prohibit modification and deletion)
