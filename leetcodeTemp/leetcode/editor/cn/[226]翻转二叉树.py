@@ -33,14 +33,29 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+# 递归
+# class Solution:
+#     def invertTree(self, root: TreeNode) -> TreeNode:
+#         if root:
+#             left = self.invertTree(root.left)
+#             right = self.invertTree(root.right)
+#             root.left = right
+#             root.right = left
+#         return root
+
+# 迭代
 class Solution:
     def invertTree(self, root: TreeNode) -> TreeNode:
-        cur = root
         if root:
-            left = self.invertTree(root.left)
-            right = self.invertTree(root.right)
-            cur.left = right
-            cur.right = left
-        return cur
+            queue = [root]
+            while queue:
+                tmp = queue.pop(0)
+                tmp.left, tmp.right = tmp.right, tmp.left
+                if tmp.left:
+                    queue.append(tmp.left)
+                if tmp.right:
+                    queue.append(tmp.right)
+        return root
 
 # leetcode submit region end(Prohibit modification and deletion)
