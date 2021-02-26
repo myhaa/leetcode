@@ -16,18 +16,30 @@
 
 
 # leetcode submit region begin(Prohibit modification and deletion)
+# class Solution:
+#     def moveZeroes(self, nums: List[int]) -> None:
+#         """
+#         Do not return anything, modify nums in-place instead.
+#         """
+#         len_nums = len(nums)
+#         if len_nums > 1:
+#             p = 0
+#             for i in range(len_nums):
+#                 if nums[i] != 0:
+#                     nums[p] = nums[i]
+#                     p += 1
+#             nums[p:] = [0]*(len_nums-p)
+#  优化一下
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         """
         Do not return anything, modify nums in-place instead.
         """
         len_nums = len(nums)
-        if len_nums > 1:
-            p = 0
-            for i in range(len_nums):
-                if nums[i] != 0:
-                    nums[p] = nums[i]
-                    p += 1
-            nums[p:] = [0]*(len_nums-p)
-
+        p, q = 0, 0
+        while q < len_nums:
+            if nums[q] != 0:
+                nums[p], nums[q] = nums[q], nums[p]
+                p += 1
+            q += 1
 # leetcode submit region end(Prohibit modification and deletion)
