@@ -24,16 +24,21 @@
 
 
 # leetcode submit region begin(Prohibit modification and deletion)
+# 我算的
+# class Solution:
+#     def hammingDistance(self, x: int, y: int) -> int:
+#         n = max(len(bin(x))-1, len(bin(y))-1)
+#         res = 0
+#         for i in range(n):
+#             if bin(x)[-1] != bin(y)[-1]:
+#                 res += 1
+#             x >>= 1
+#             y >>= 1
+#         return res
+
 class Solution:
     def hammingDistance(self, x: int, y: int) -> int:
-        n = max(len(bin(x))-1, len(bin(y))-1)
-        res = 0
-        for i in range(n):
-            if bin(x)[-1] != bin(y)[-1]:
-                res += 1
-            x >>= 1
-            y >>= 1
-        return res
+        return bin(x^y).count('1')
 
 
 
