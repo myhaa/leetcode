@@ -9,3 +9,4 @@ public/
 .idea/
 *.txt
 /kmeans_user.py
+/leetcodeTemp/leetcode/editor/cn/doc/
