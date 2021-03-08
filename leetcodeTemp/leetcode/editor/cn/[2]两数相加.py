@@ -53,40 +53,62 @@
 # 自己的解法
 # 将值放进列表，然后相加，再将列表转成链表
 # 时间负责度、空间复杂度都较高
+# class Solution:
+#     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+#         # def reverseListNode(l1):
+#         #     head = None
+#         #     while l1:
+#         #         tmp = l1.next
+#         #         l1.next = head
+#         #         head = l1
+#         #         l1 = tmp
+#         #     return head
+#         # l1 = reverseListNode(l1)
+#         # l2 = reverseListNode(l2)
+#         # print(l1, l2)
+#
+#         def ListNodeToList(l1):
+#             res = []
+#             while l1:
+#                 res.append(str(l1.val))
+#                 l1 = l1.next
+#             return res[::-1]
+#
+#         l1 = ListNodeToList(l1)
+#         l2 = ListNodeToList(l2)
+#         # print(l1, l2)
+#         res = list(str(int(''.join(l1))+int(''.join(l2))))[::-1]
+#         # print(res)
+#         head = ListNode(int(res[0]))
+#         tmp = head
+#         for i in res[1:]:
+#             tmp1 = ListNode(int(i))  # 新建一个节点
+#             tmp.next = tmp1  # 将head.next指向该节点
+#             tmp = tmp1  # 将tmp指向新建节点，此时head节点不会变
+#         return head
+
+# 官方解法=
+# 时间复杂度：O(MAX(M,N))
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
-        # def reverseListNode(l1):
-        #     head = None
-        #     while l1:
-        #         tmp = l1.next
-        #         l1.next = head
-        #         head = l1
-        #         l1 = tmp
-        #     return head
-        # l1 = reverseListNode(l1)
-        # l2 = reverseListNode(l2)
-        # print(l1, l2)
-
-        def ListNodeToList(l1):
-            res = []
-            while l1:
-                res.append(str(l1.val))
+        head, tmp, carry = None, None, 0
+        while l1 or l2:
+            n1 = l1.val if l1 else 0
+            n2 = l2.val if l2 else 0
+            n_sum = n1 + n2 + carry
+            if not head:
+                tmp = ListNode(n_sum % 10)
+                head = tmp
+            else:
+                tmp.next = ListNode(n_sum % 10)
+                tmp = tmp.next
+            carry = n_sum // 10
+            if l1:
                 l1 = l1.next
-            return res[::-1]
-
-        l1 = ListNodeToList(l1)
-        l2 = ListNodeToList(l2)
-        # print(l1, l2)
-        res = list(str(int(''.join(l1))+int(''.join(l2))))[::-1]
-        # print(res)
-        head = ListNode(int(res[0]))
-        tmp = head
-        for i in res[1:]:
-            tmp1 = ListNode(int(i))  # 新建一个节点
-            tmp.next = tmp1  # 将head.next指向该节点
-            tmp = tmp1  # 将tmp指向新建节点，此时head节点不会变
+            if l2:
+                l2 = l2.next
+        if carry > 0:
+            tmp.next = ListNode(carry)
         return head
-
-
 
 # leetcode submit region end(Prohibit modification and deletion)
