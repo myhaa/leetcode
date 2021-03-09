@@ -75,6 +75,29 @@
 # 还是耗时
 # 执行耗时:1148 ms,击败了5.21% 的Python3用户
 # 内存消耗:14.9 MB,击败了62.22% 的Python3用户
+# class Solution:
+#     def lengthOfLongestSubstring(self, s: str) -> int:
+#         def search_index(s1, x):
+#             for i in range(len(s1)):
+#                 if s1[i] == x:
+#                     return i
+#             return 0
+#         len_s = len(s)
+#         if len_s <= 1:
+#             return len_s
+#         p, q, res = 0, 1, 1
+#         while q < len_s:
+#             if s[q] not in s[p:q]:
+#                 q += 1
+#                 res = max(res, len(s[p:q]))
+#             else:
+#                 p = p + 1
+#         return res
+
+# 优化
+# 看了解答
+# 执行耗时:80 ms,击败了52.84% 的Python3用户
+# 内存消耗:15.1 MB,击败了7.49% 的Python3用户
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         def search_index(s1, x):
@@ -91,11 +114,8 @@ class Solution:
                 q += 1
                 res = max(res, len(s[p:q]))
             else:
-                p = p + search_index(s[p:q], s[q]) + 1
-                q = p + 1
+                p = p + 1
         return res
-        
-        
         
         
 # leetcode submit region end(Prohibit modification and deletion)
