@@ -50,22 +50,42 @@
 # 时间复杂度：O(N^2)
 # 执行耗时:9672 ms,击败了4.99% 的Python3用户
 # 内存消耗:14.7 MB,击败了89.83% 的Python3用户
+# class Solution:
+#     def longestPalindrome(self, s: str) -> str:
+#         if s == s[::-1]:
+#             return s
+#         len_s = len(s)
+#         res = s[0]
+#         for i in range(len_s):
+#             j = i + 1
+#             while j < len_s:
+#                 tmp = s[i:j+1]
+#                 if tmp == tmp[::-1] and len(tmp) > len(res):
+#                     res = tmp
+#                 else:
+#                     j += 1
+#         return res
+
+# 优化-中心拓展法
+# 时间复杂度：O(N^2)
+# 执行耗时:1000 ms,击败了63.72% 的Python3用户
+# 内存消耗:14.7 MB,击败了91.21% 的Python3用户
 class Solution:
+    def expandAroundCenter(self, s, left, right):
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            left -= 1
+            right += 1
+        return left+1, right-1
+        
     def longestPalindrome(self, s: str) -> str:
-        if s == s[::-1]:
-            return s
-        len_s = len(s)
-        res = s[0]
-        for i in range(len_s):
-            j = i + 1
-            while j < len_s:
-                tmp = s[i:j+1]
-                if tmp == tmp[::-1] and len(tmp) > len(res):
-                    res = tmp
-                else:
-                    j += 1
-        return res
-        
-        
-        
+        start, end = 0, 0
+        for i in range(len(s)):
+            left1, right1 = self.expandAroundCenter(s, i, i)
+            left2, right2 = self.expandAroundCenter(s, i, i+1)
+            if right1 - left1 > end - start:
+                start, end = left1, right1
+            if right2 - left2 > end - start:
+                start, end = left2, right2
+        return s[start:end+1]
+    
 # leetcode submit region end(Prohibit modification and deletion)
