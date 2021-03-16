@@ -47,25 +47,89 @@
 # 空间复杂度：O(N)
 # 执行耗时:32 ms,击败了94.27% 的Python3用户
 # 内存消耗:15 MB,击败了21.63% 的Python3用户
+# class Solution:
+#     def __init__(self):
+#         self.digitsDict = {
+#             '2': list('abc'),
+#             '3': list('def'),
+#             '4': list('ghi'),
+#             '5': list('jkl'),
+#             '6': list('mno'),
+#             '7': list('pqrs'),
+#             '8': list('tuv'),
+#             '9': list('wxyz')
+#         }
+#
+#     def letterCombinations(self, digits: str) -> List[str]:
+#         len_digits = len(digits)
+#         if len_digits <= 1:
+#             return self.digitsDict.get(digits, [])
+#         tmp = self.digitsDict.get(digits[0], [])
+#         rest = self.letterCombinations(digits[1:])
+#         return [x+y for x in tmp for y in rest]
+
+# 迭代版
+# 执行耗时:44 ms,击败了30.15% 的Python3用户
+# 内存消耗:14.8 MB,击败了77.07% 的Python3用户
+# class Solution:
+#     def __init__(self):
+#         self.digitsDict = {
+#             '2': list('abc'),
+#             '3': list('def'),
+#             '4': list('ghi'),
+#             '5': list('jkl'),
+#             '6': list('mno'),
+#             '7': list('pqrs'),
+#             '8': list('tuv'),
+#             '9': list('wxyz')
+#         }
+#
+#     def letterCombinations(self, digits: str) -> List[str]:
+#         len_digits = len(digits)
+#         if len_digits <= 1:
+#             return self.digitsDict.get(digits, [])
+#         q = len_digits - 2
+#         right = self.digitsDict.get(digits[-1], [])
+#         while q >= 0:
+#             tmp = self.digitsDict.get(digits[q], [])
+#             right = [x+y for x in tmp for y in right]
+#             q -= 1
+#         return right
+
+# 官方解答
+# 时间复杂度：O(3^m+4^n)
+# 空间复杂度：O(m+n)
+# 执行耗时:44 ms,击败了30.15% 的Python3用户
+# 内存消耗:14.9 MB,击败了47.65% 的Python3用户
 class Solution:
-    def __init__(self):
-        self.digitsDict = {
-            '2': list('abc'),
-            '3': list('def'),
-            '4': list('ghi'),
-            '5': list('jkl'),
-            '6': list('mno'),
-            '7': list('pqrs'),
-            '8': list('tuv'),
-            '9': list('wxyz')
+    def letterCombinations(self, digits: str) -> List[str]:
+        if not digits:
+            return list()
+        
+        phoneMap = {
+            "2": "abc",
+            "3": "def",
+            "4": "ghi",
+            "5": "jkl",
+            "6": "mno",
+            "7": "pqrs",
+            "8": "tuv",
+            "9": "wxyz",
         }
         
-    def letterCombinations(self, digits: str) -> List[str]:
-        len_digits = len(digits)
-        if len_digits <= 1:
-            return self.digitsDict.get(digits, [])
-        tmp = self.digitsDict.get(digits[0], [])
-        rest = self.letterCombinations(digits[1:])
-        return [x+y for x in tmp for y in rest]
+        def backtrack(index: int):
+            if index == len(digits):
+                combinations.append("".join(combination))
+            else:
+                digit = digits[index]
+                for letter in phoneMap[digit]:
+                    combination.append(letter)
+                    backtrack(index + 1)
+                    combination.pop()
         
+        combination = list()
+        combinations = list()
+        backtrack(0)
+        return combinations
+
 # leetcode submit region end(Prohibit modification and deletion)
