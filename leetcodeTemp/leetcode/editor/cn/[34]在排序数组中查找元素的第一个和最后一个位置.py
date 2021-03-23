@@ -48,20 +48,44 @@
 # 时间复杂度：O(N)
 # 执行耗时:36 ms,击败了88.72% 的Python3用户
 # 内存消耗:15.6 MB,击败了40.62% 的Python3用户
+# class Solution:
+#     def searchRange(self, nums: List[int], target: int) -> List[int]:
+#         res = [-1, -1]
+#         p, q = 0, len(nums)-1
+#         while p <= q:
+#             if nums[p] == target:
+#                 res[0] = p
+#                 break
+#             p += 1
+#         while q >= 0:
+#             if nums[q] == target:
+#                 res[1] = q
+#                 break
+#             q -= 1
+#         return res
+
+# 二分查找
+# 时间复杂度：O(logN)
+# 执行耗时:44 ms,击败了45.61% 的Python3用户
+# 内存消耗:15.6 MB,击败了49.02% 的Python3用户
 class Solution:
+    def binarySearch(self, nums, target, lower):
+        l, r = 0, len(nums)-1
+        ans = len(nums)
+        while l <= r:
+            mid = (l+r) >> 1
+            if nums[mid] > target or (lower and nums[mid] >= target):
+                r = mid - 1
+                ans = mid
+            else:
+                l = mid + 1
+        return ans
+    
     def searchRange(self, nums: List[int], target: int) -> List[int]:
-        res = [-1, -1]
-        p, q = 0, len(nums)-1
-        while p <= q:
-            if nums[p] == target:
-                res[0] = p
-                break
-            p += 1
-        while q >= 0:
-            if nums[q] == target:
-                res[1] = q
-                break
-            q -= 1
-        return res
-        
+        left_index = self.binarySearch(nums, target, True)
+        right_index = self.binarySearch(nums, target, False) - 1
+        if left_index <= right_index < len(nums) and nums[left_index] == target and nums[right_index] == target:
+            return [left_index, right_index]
+        return [-1, -1]
+
 # leetcode submit region end(Prohibit modification and deletion)
