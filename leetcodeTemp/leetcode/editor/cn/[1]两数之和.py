@@ -41,7 +41,7 @@
 #  Related Topics 数组 哈希表
 #  👍 10417 👎 0
 
-
+# test
 # leetcode submit region begin(Prohibit modification and deletion)
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
