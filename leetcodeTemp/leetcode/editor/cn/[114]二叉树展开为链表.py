@@ -51,22 +51,44 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+# 			执行耗时:40 ms,击败了85.29% 的Python3用户
+# 			内存消耗:14.9 MB,击败了91.73% 的Python3用户
+# class Solution:
+#     def flatten(self, root: TreeNode) -> None:
+#         """
+#         Do not return anything, modify root in-place instead.
+#         """
+#         res = []
+#         def preorder(root):
+#             if root:
+#                 res.append(root)
+#                 preorder(root.left)
+#                 preorder(root.right)
+#         preorder(root)
+#         size = len(res)
+#         # print(res)
+#         for i in range(1, size):
+#             prev, cur = res[i-1], res[i]
+#             prev.left = None
+#             prev.right = cur
+
 class Solution:
     def flatten(self, root: TreeNode) -> None:
         """
         Do not return anything, modify root in-place instead.
         """
-        res = []
-        def preorder(root):
-            if root:
-                res.append(root)
-                preorder(root.left)
-                preorder(root.right)
-        preorder(root)
-        size = len(res)
-        # print(res)
-        for i in range(1, size):
-            prev, cur = res[i-1], res[i]
-            prev.left = None
-            prev.right = cur
+        if not root:
+            return
+        stack = [root]
+        prev = None
+        while stack:
+            node = stack.pop()
+            if prev:
+                prev.left = None
+                prev.right = node
+            if node.right:
+                stack.append(node.right)
+            if node.left:
+                stack.append(node.left)
+            prev = node
 # leetcode submit region end(Prohibit modification and deletion)
