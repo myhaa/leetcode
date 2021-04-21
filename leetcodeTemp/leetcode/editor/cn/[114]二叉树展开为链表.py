@@ -72,23 +72,44 @@
 #             prev.left = None
 #             prev.right = cur
 
+# # 迭代
+# class Solution:
+#     def flatten(self, root: TreeNode) -> None:
+#         """
+#         Do not return anything, modify root in-place instead.
+#         """
+#         if not root:
+#             return
+#         stack = [root]
+#         prev = None
+#         while stack:
+#             node = stack.pop()
+#             if prev:
+#                 prev.left = None
+#                 prev.right = node
+#             if node.right:
+#                 stack.append(node.right)
+#             if node.left:
+#                 stack.append(node.left)
+#             prev = node
+
+
+# 时间复杂度：O(1)
+# 执行耗时:36 ms,击败了94.83% 的Python3用户
+# 			内存消耗:15.1 MB,击败了63.40% 的Python3用户
 class Solution:
     def flatten(self, root: TreeNode) -> None:
         """
         Do not return anything, modify root in-place instead.
         """
-        if not root:
-            return
-        stack = [root]
-        prev = None
-        while stack:
-            node = stack.pop()
-            if prev:
-                prev.left = None
-                prev.right = node
-            if node.right:
-                stack.append(node.right)
-            if node.left:
-                stack.append(node.left)
-            prev = node
+        cur = root
+        while cur:
+            if cur.left:
+                pre = nxt = cur.left
+                while pre.right:
+                    pre = pre.right
+                pre.right = cur.right
+                cur.left = None
+                cur.right = nxt
+            cur = cur.right
 # leetcode submit region end(Prohibit modification and deletion)
