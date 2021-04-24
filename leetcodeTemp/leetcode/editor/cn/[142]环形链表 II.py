@@ -70,14 +70,35 @@
 # 空间复杂度：O(N)
 # 			执行耗时:984 ms,击败了5.37% 的Python3用户
 # 			内存消耗:17.9 MB,击败了24.28% 的Python3用户
+# class Solution:
+#     def detectCycle(self, head: ListNode) -> ListNode:
+#         visited = []
+#         while head:
+#             if head in visited:
+#                 return head
+#             visited.append(head)
+#             head = head.next
+#         return None
+
+# 快慢指针， 快指针走2步，慢指针走1步，有环就会相遇
+# 时间复杂度：O(N)
+# 空间复杂度：O(1)
+# 			执行耗时:56 ms,击败了83.26% 的Python3用户
+# 			内存消耗:18 MB,击败了10.26% 的Python3用户
 class Solution:
     def detectCycle(self, head: ListNode) -> ListNode:
-        visited = []
-        while head:
-            if head in visited:
-                return head
-            visited.append(head)
-            head = head.next
+        slow, fast = head, head
+        while fast:
+            slow = slow.next
+            if not fast.next:
+                return None
+            fast = fast.next.next
+            if slow == fast:  # 当快慢指针相遇后，说明有环，设定一个tmp指针从头开始，慢指针走一步，它走一步，然后总会在环头相遇
+                tmp = head
+                while slow != tmp:
+                    tmp = tmp.next
+                    slow = slow.next
+                return tmp
         return None
-        
+
 # leetcode submit region end(Prohibit modification and deletion)
