@@ -70,34 +70,34 @@ class LRUCache:
 
     def __init__(self, capacity: int):
         self.capacity = capacity
-        self.size = 0
-        self.head = DLinkedList()
-        self.tail = DLinkedList()
-        self.tmp = {}
-        self.head.next = self.tail
-        self.tail.prev = self.head
+        self.size = 0  # 用于控制是否超出capacity
+        self.head = DLinkedList()  # 头结点
+        self.tail = DLinkedList()  # 尾结点
+        self.tmp = {}  # hash表缓存已有的key
+        self.head.next = self.tail  # 将头结点的next指针指向尾结点
+        self.tail.prev = self.head  # 将尾结点的prev指针指向头结点
 
     def get(self, key: int) -> int:
-        if key not in self.tmp:
+        if key not in self.tmp:  # 判断key是否在缓存hash表中，不在则直接返回-1
             return -1
-        node = self.tmp.get(key)
-        self.moveToHead(node)
-        return node.value
+        node = self.tmp.get(key)  # 在的话，获取该key对应的结点
+        self.moveToHead(node)  # 将该结点移动到头结点，说明这个key最近被用过
+        return node.value  # 返回该结点对应值
 
     def put(self, key: int, value: int) -> None:
-        if key not in self.tmp:
-            node = DLinkedList(key, value)
-            self.addToHead(node)
-            self.tmp[key] = node
-            self.size += 1
-            if self.size > self.capacity:
-                removed = self.removeTail()
-                self.tmp.pop(removed.key)
-                self.size -= 1
+        if key not in self.tmp:  # 判断key是否在hash表中，不在则增加
+            node = DLinkedList(key, value)  # 创建该结点
+            self.addToHead(node)  # 增加到头结点
+            self.tmp[key] = node  # 增加到hash表
+            self.size += 1  # size+1
+            if self.size > self.capacity:  # 判断size是否大于capacity
+                removed = self.removeTail()  # 在则删除尾节点，因为尾节点最久未使用
+                self.tmp.pop(removed.key)  # 并从hash表中删除该节点
+                self.size -= 1  # size-1
         else:
-            node = self.tmp.get(key)
-            node.value = value
-            self.moveToHead(node)
+            node = self.tmp.get(key)  # 如果在，则获取，
+            node.value = value  # 更新值
+            self.moveToHead(node)  # 将该结点移到头结点，表示最近使用
     
     def addToHead(self, node):
         node.prev = self.head
