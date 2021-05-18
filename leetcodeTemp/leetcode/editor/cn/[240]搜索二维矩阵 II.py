@@ -46,17 +46,55 @@
 # 空间复杂度：O(1)
 # 			执行耗时:204 ms,击败了29.29% 的Python3用户
 # 			内存消耗:20.9 MB,击败了71.19% 的Python3用户
+# class Solution:
+#     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+#         m, n = len(matrix), len(matrix[0])
+#         i, j = 0, n-1
+#         while i < m and j > -1:
+#             if matrix[i][j] == target:
+#                 return True
+#             elif matrix[i][j] > target:
+#                 j -= 1
+#             else:
+#                 i += 1
+#         return False
+
+
+# 二分查找
+# * 时间复杂度：*O(lg(n!))*。
+# * 空间复杂度：*O(1)*，因为我们的二分搜索实现并没有真正地切掉矩阵中的行和列的副本，我们可以避免分配大于常量内存。
+# 			执行耗时:168 ms,击败了98.39% 的Python3用户
+# 			内存消耗:21 MB,击败了22.50% 的Python3用户
 class Solution:
-    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
-        m, n = len(matrix), len(matrix[0])
-        i, j = 0, n-1
-        while i < m and j > -1:
-            if matrix[i][j] == target:
-                return True
-            elif matrix[i][j] > target:
-                j -= 1
+    def binarySearch(self, matrix, target, start, vertical):
+        lo = start
+        hi = len(matrix) - 1
+        if vertical:
+            hi = len(matrix[0]) - 1
+        while lo <= hi:
+            mid = (lo+hi) >> 1
+            if vertical:
+                if matrix[start][mid] == target:
+                    return True
+                elif matrix[start][mid] < target:
+                    lo = mid + 1
+                else:
+                    hi = mid - 1
             else:
-                i += 1
+                if matrix[mid][start] == target:
+                    return True
+                elif matrix[mid][start] < target:
+                    lo = mid + 1
+                else:
+                    hi = mid - 1
         return False
-        
+    
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        for i in range(min(len(matrix), len(matrix[0]))):
+            x1 = self.binarySearch(matrix, target, i, False)
+            x2 = self.binarySearch(matrix, target, i, True)
+            if x1 or x2:
+                return True
+        return False
+
 # leetcode submit region end(Prohibit modification and deletion)
