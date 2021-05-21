@@ -48,28 +48,49 @@
 # * 空间复杂度：*O(1)*。额外使用的空间复杂度为常数。
 # 			执行耗时:900 ms,击败了5.00% 的Python3用户
 # 			内存消耗:20.3 MB,击败了59.74% 的Python3用户
+# class Solution:
+#     def maximalSquare(self, matrix: List[List[str]]) -> int:
+#         if len(matrix) == 0 or len(matrix[0]) == 0:  # 先判断数组是否空
+#             return 0
+#         row, col = len(matrix), len(matrix[0])  # 行列
+#         max_side = 0  # 边长
+#         for i in range(row):  # 遍历
+#             for j in range(col):
+#                 if matrix[i][j] == '1':  # 找到不为1的点，作为正方形的左点
+#                     max_side = max(max_side, 1)  # 更新边长
+#                     currentMaxSide = min(row-i, col-j)  # 剩下能够遍历的长度
+#                     for k in range(1, currentMaxSide):  # 遍历
+#                         flag = True  # flag
+#                         if matrix[i+k][j+k] == '0':  # 如果右下点是0，则直接break
+#                             break
+#                         for x in range(k):  # 遍历
+#                             if matrix[i+k][j+x] == '0' or matrix[i+x][j+k] == '0':  # 往右或往下是0，则break
+#                                 flag = False
+#                                 break
+#                         if flag:  # 如果flag是true，则更新边长
+#                             max_side = max(max_side, k+1)
+#                         else:
+#                             break  # 否则break
+#         return max_side*max_side
+
+# 动态规划
+# 状态转移方程为：dp[i][j] = min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]) + 1
+# 时间复杂度：O(MN)
+# 空间复杂度：O(MN)
+# 			执行耗时:116 ms,击败了26.76% 的Python3用户
+# 			内存消耗:20.2 MB,击败了78.38% 的Python3用户
 class Solution:
     def maximalSquare(self, matrix: List[List[str]]) -> int:
-        if len(matrix) == 0 or len(matrix[0]) == 0:
+        if len(matrix) == 0 or len(matrix[0]) == 0:  # 先判断数组是否空
             return 0
-        row, col = len(matrix), len(matrix[0])
-        max_side = 0
-        for i in range(row):
+        row, col = len(matrix), len(matrix[0])  # 行列
+        dp = [[0]*col for _ in range(row)]
+        max_side = 0  # 边长
+        for i in range(row):  # 遍历
             for j in range(col):
-                if matrix[i][j] == '1':
-                    max_side = max(max_side, 1)
-                    currentMaxSide = min(row-i, col-j)
-                    for k in range(1, currentMaxSide):
-                        flag = True
-                        if matrix[i+k][j+k] == '0':
-                            break
-                        for x in range(k):
-                            if matrix[i+k][j+x] == '0' or matrix[i+x][j+k] == '0':
-                                flag = False
-                                break
-                        if flag:
-                            max_side = max(max_side, k+1)
-                        else:
-                            break
+                if matrix[i][j] == '1':  # 找到不为1的点，作为正方形的左点
+                    dp[i][j] = 1 if i == 0 or j == 0 else min(dp[i-1][j-1], dp[i][j-1], dp[i-1][j]) + 1
+                    max_side = max(dp[i][j], max_side)
+                
         return max_side*max_side
 # leetcode submit region end(Prohibit modification and deletion)
