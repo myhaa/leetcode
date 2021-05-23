@@ -39,21 +39,39 @@
 # minnum(n) = min(minnum(n-k)+1)  对任意完全平方数K
 # 时间复杂度：O()
 # 			Time Limit Exceeded
-import math
+# import math
+# class Solution:
+#     def numSquares(self, n: int) -> int:
+#         squareList = [i**2 for i in range(1, int(math.sqrt(n))+1)]  # 先找出n以内完全平方数
+#
+#         def minSquareFunc(x):  # 递归
+#             if x in squareList:  # 如果在完全平方数list，则直接返回1
+#                 return 1
+#             res = float('inf')  # 记住最小步数
+#             for squre in squareList:  # 遍历完全平方数list
+#                 if x < squre:
+#                     break
+#                 new_res = minSquareFunc(x-squre) + 1  # 对每个square都找出最小步数
+#                 res = min(res, new_res)  # 比较目前最小步数和找出的最小步数
+#             return res
+#
+#         return minSquareFunc(n)
+
+
+# 动态规划
+# 时间复杂度：O(N*sqrt(N))  ，在主步骤中，我们有一个嵌套循环，其中外部循环是 n 次迭代，而内部循环最多需要 sqrtn  迭代。
+# 空间复杂度：O(N)  ，使用了一个一维数组 dp。
+# 			执行耗时:5272 ms,击败了19.57% 的Python3用户
+# 			内存消耗:15 MB,击败了69.49% 的Python3用户
 class Solution:
     def numSquares(self, n: int) -> int:
-        squareList = [i**2 for i in range(1, int(math.sqrt(n))+1)]  # 先找出n以内完全平方数
-        
-        def minSquareFunc(x):  # 递归
-            if x in squareList:  # 如果在完全平方数list，则直接返回1
-                return 1
-            res = float('inf')  # 记住最小步数
-            for squre in squareList:  # 遍历完全平方数list
-                if x < squre:
+        squareList = [i ** 2 for i in range(1, int(n**0.5) + 1)]  # 先找出n以内完全平方数
+        dp = [float('inf')] * (n+1)
+        dp[0] = 0
+        for i in range(1, n+1):
+            for square in squareList:
+                if i < square:
                     break
-                new_res = minSquareFunc(x-squre) + 1  # 对每个square都找出最小步数
-                res = min(res, new_res)  # 比较目前最小步数和找出的最小步数
-            return res
-        
-        return minSquareFunc(n)
+                dp[i] = min(dp[i-square] + 1, dp[i])
+        return dp[-1]
 # leetcode submit region end(Prohibit modification and deletion)
