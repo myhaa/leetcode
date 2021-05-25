@@ -89,17 +89,38 @@
 # 空间复杂度：O(1)
 # 			执行耗时:104 ms,击败了25.33% 的Python3用户
 # 			内存消耗:25.5 MB,击败了21.78% 的Python3用户
+# class Solution:
+#     def findDuplicate(self, nums: List[int]) -> int:
+#         slow, fast = 0, 0
+#         slow = nums[slow]
+#         fast = nums[nums[fast]]
+#         while slow != fast:
+#             slow = nums[slow]
+#             fast = nums[nums[fast]]
+#         slow = 0
+#         while slow != fast:
+#             slow = nums[slow]
+#             fast = nums[fast]
+#         return slow
+
+# 二分查找
+
+# 			执行耗时:376 ms,击败了9.85% 的Python3用户
+# 			内存消耗:25.6 MB,击败了12.71% 的Python3用户
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
-        slow, fast = 0, 0
-        slow = nums[slow]
-        fast = nums[nums[fast]]
-        while slow != fast:
-            slow = nums[slow]
-            fast = nums[nums[fast]]
-        slow = 0
-        while slow != fast:
-            slow = nums[slow]
-            fast = nums[fast]
-        return slow
+        l, r = 1, len(nums)-1
+        ans = -1
+        while l <= r:
+            mid = (l+r) >> 1
+            cur = 0
+            for i in nums:
+                if i <= mid:
+                    cur += 1
+            if cur <= mid:
+                l = mid + 1
+            else:
+                r = mid - 1
+                ans = mid
+        return ans
 # leetcode submit region end(Prohibit modification and deletion)
