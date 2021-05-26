@@ -50,15 +50,50 @@
 
 
 # leetcode submit region begin(Prohibit modification and deletion)
+# 动态规划
+# 转移：dp[i]= max(dp[i], dp[j]+1) for j in range(i) for i in range(1, len(nums)) if nums[i] > nums[j]
+# 时间复杂度：O(N^2)
+# 空间复杂度：O(N)
+# 			执行耗时:3816 ms,击败了28.82% 的Python3用户
+# 			内存消耗:15.1 MB,击败了60.36% 的Python3用户
+# class Solution:
+#     def lengthOfLIS(self, nums: List[int]) -> int:
+#         if not nums:
+#             return 0
+#         dp = [1] * len(nums)
+#         for i in range(1, len(nums)):
+#             for j in range(i):
+#                 if nums[i] > nums[j]:
+#                     dp[i] = max(dp[i], dp[j]+1)
+#         return max(dp)
+
+
+# 贪心+二分查找
+# 维护一个数组dp, 保证数组dp递增，且dp长度，则是所求，
+# 关键在于dp如何更新，则我们需要让序列上升得尽可能慢，因此我们希望每次在上升子序列最后加上的那个数尽可能的小
+# 时间复杂度：O(nlogn)
+# 空间复杂度：O(n)
+# 			执行耗时:72 ms,击败了77.64% 的Python3用户
+# 			内存消耗:15.2 MB,击败了8.27% 的Python3用户
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         if not nums:
             return 0
-        res = []
-        for i in range(len(nums)):
-            res.append(1)
-            for j in range(i):
-                if nums[i] > nums[j]:
-                    res[i] = max(res[i], res[j] + 1)
-        return max(res)
+        dp = []
+        for i in nums:
+            if not dp or dp[-1] < i:
+                dp.append(i)
+            else:
+                l, r = 0, len(dp) - 1
+                loc = r
+                while l <= r:
+                    mid = (l+r) >> 1
+                    if dp[mid] >= i:
+                        r = mid - 1
+                        loc = mid
+                    else:
+                        l = mid + 1
+                dp[loc] = i
+        return len(dp)
+        
 # leetcode submit region end(Prohibit modification and deletion)
