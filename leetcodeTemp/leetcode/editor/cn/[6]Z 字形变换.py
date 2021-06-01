@@ -61,6 +61,36 @@
 # 空间复杂度：O(N)
 # 		执行耗时:68 ms,击败了54.91% 的Python3用户
 # 		内存消耗:14.9 MB,击败了84.82% 的Python3用户
+# class Solution:
+#     def convert(self, s: str, numRows: int) -> str:
+#         if len(s) == 1 or numRows == 1:
+#             return s
+#         res = {}
+#         for i in range(numRows):
+#             res[i] = []
+#         i, j = -1, -1
+#         while i < len(s):
+#             while j < numRows-1:
+#                 j += 1
+#                 i += 1
+#                 if i >= len(s):
+#                     break
+#                 res[j].append(s[i])
+#
+#             while j > 0:
+#                 j -= 1
+#                 i += 1
+#                 if i >= len(s):
+#                     break
+#                 res[j].append(s[i])
+#         res1 = ''
+#         for key, value in res.items():
+#             value = ''.join(value)
+#             res1 += value
+#         return res1
+
+# 			执行耗时:84 ms,击败了24.24% 的Python3用户
+# 			内存消耗:15.1 MB,击败了37.39% 的Python3用户
 class Solution:
     def convert(self, s: str, numRows: int) -> str:
         if len(s) == 1 or numRows == 1:
@@ -68,21 +98,12 @@ class Solution:
         res = {}
         for i in range(numRows):
             res[i] = []
-        i, j = -1, -1
-        while i < len(s):
-            while j < numRows-1:
-                j += 1
-                i += 1
-                if i >= len(s):
-                    break
-                res[j].append(s[i])
-                
-            while j > 0:
-                j -= 1
-                i += 1
-                if i >= len(s):
-                    break
-                res[j].append(s[i])
+        count, flag = 0, -1
+        for i in s:
+            res[count].append(i)
+            if count == 0 or count == (numRows-1):
+                flag = -1 * flag
+            count += flag
         res1 = ''
         for key, value in res.items():
             value = ''.join(value)
