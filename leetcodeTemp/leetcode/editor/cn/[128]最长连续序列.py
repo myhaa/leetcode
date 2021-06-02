@@ -38,17 +38,39 @@
 # 			内存消耗:22.6 MB,击败了13.47% 的Python3用户
 
 # leetcode submit region begin(Prohibit modification and deletion)
+# class Solution:
+#     def longestConsecutive(self, nums: List[int]) -> int:
+#         if len(nums) <= 1:
+#             return len(nums)
+#         nums.sort()
+#         dp = [1] * len(nums)
+#         for i in range(1, len(nums)):
+#             if nums[i] == nums[i-1]+1:
+#                 dp[i] = dp[i-1] + 1
+#             elif nums[i] == nums[i-1]:
+#                 dp[i] = dp[i-1]
+#         # print(nums, dp)
+#         return max(dp)
+
+# 哈希表
+# 思路：将nums去重为哈希表，对表中每一个元素x判断x+1,x+2,x+3,...,x+y是否在表终，如果成立，则长度为y+1
+# 可以把x-1存在在表中的x可以不用判断，因为x-1作为起点的序列肯定比x起点的序列长
+# 时间复杂度：O(N)
+# 空间复杂度：O(N)
+# 			执行耗时:68 ms,击败了29.77% 的Python3用户
+# 			内存消耗:26 MB,击败了7.11% 的Python3用户
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
-        if len(nums) <= 1:
-            return len(nums)
-        nums.sort()
-        dp = [1] * len(nums)
-        for i in range(1, len(nums)):
-            if nums[i] == nums[i-1]+1:
-                dp[i] = dp[i-1] + 1
-            elif nums[i] == nums[i-1]:
-                dp[i] = dp[i-1]
-        # print(nums, dp)
-        return max(dp)
+        ans = 0  # 最终答案
+        nums_set = set(nums)  # 去重
+        for i in nums_set:  # 遍历每个元素
+            if i - 1 not in nums_set:  # 用哈希表判断是否存在，时间复杂度为O(1)
+                cur = 1  # 以i为起点的连续序列长度
+                x = i  # x + 1
+                
+                while x + 1 in nums_set:  # 一直累加判断是否在set
+                    x += 1
+                    cur += 1
+                ans = max(ans, cur)
+        return ans
 # leetcode submit region end(Prohibit modification and deletion)
