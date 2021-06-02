@@ -43,7 +43,7 @@
 #  Related Topics 数组 哈希表
 #  👍 10433 👎 0
 
-
+# test
 # leetcode submit region begin(Prohibit modification and deletion)
 # 第一种：暴力求解，双重循环
 # 时间复杂度：O(N^2)
