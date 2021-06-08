@@ -36,21 +36,38 @@
 # 空间复杂度：O(N)
 # 			执行耗时:212 ms,击败了83.25% 的Python3用户
 # 			内存消耗:20.2 MB,击败了7.36% 的Python3用户
+# class Solution:
+#     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+#         if len(temperatures) <= 1:
+#             return [0]
+#         stack = []
+#         res = [0] * len(temperatures)
+#         for index, value in enumerate(temperatures):
+#             if not stack:
+#                 stack.append(index)
+#                 continue
+#             while stack and value > temperatures[stack[-1]]:
+#                 x = stack.pop()
+#                 res[x] = index - x
+#             else:
+#                 stack.append(index)
+#         return res
+
+# 哈希表
+# 时间复杂度：O(NM)
+# 空间复杂度：O(M)
+# 		执行耗时:2360 ms,击败了5.00% 的Python3用户
+# 		内存消耗:19.4 MB,击败了22.62% 的Python3用户
+
 class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
-        if len(temperatures) <= 1:
-            return [0]
-        stack = []
-        res = [0] * len(temperatures)
-        for index, value in enumerate(temperatures):
-            if not stack:
-                stack.append(index)
-                continue
-            while stack and value > temperatures[stack[-1]]:
-                x = stack.pop()
-                res[x] = index - x
-            else:
-                stack.append(index)
-        return res
+        n = len(temperatures)
+        ans, nxt, big = [0]*n, dict(), 1e8
+        for i in range(n-1, -1, -1):
+            warm_index = min([nxt.get(x, big) for x in range(temperatures[i]+1, 102)])
+            if warm_index != big:
+                ans[i] = warm_index - i
+            nxt[temperatures[i]] = i
+        return ans
         
 # leetcode submit region end(Prohibit modification and deletion)
