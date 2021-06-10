@@ -34,19 +34,42 @@
 # 空间复杂度：O(N^2)
 # 			执行耗时:628 ms,击败了6.60% 的Python3用户
 # 			内存消耗:213.2 MB,击败了5.04% 的Python3用户
+# class Solution:
+#     def countSubstrings(self, s: str) -> int:
+#         n = len(s)
+#         if n <= 1:
+#             return n
+#         res = []
+#         for i in range(n):
+#             for j in range(i+1, n+1):
+#                 res.append(s[i:j])
+#
+#         ans = 0
+#         for i in res:
+#             if i == i[::-1]:
+#                 ans += 1
+#         return ans
+
+# 中心拓展法
+# 遍历每个中心点，然后往两边拓展
+# 时间复杂度：O(N^2)
+# 空间复杂度：O(1)
 class Solution:
+    def is_huiwen(self, s, i, j, tmp):
+        while i >= 0 and j < len(s) and s[i] == s[j]:
+            tmp += 1
+            i -= 1
+            j += 1
+        return tmp
+    
     def countSubstrings(self, s: str) -> int:
         n = len(s)
         if n <= 1:
             return n
-        res = []
-        for i in range(n):
-            for j in range(i+1, n+1):
-                res.append(s[i:j])
-                
         ans = 0
-        for i in res:
-            if i == i[::-1]:
-                ans += 1
+        for i in range(n):
+            ans = self.is_huiwen(s, i, i, tmp=ans)
+            ans = self.is_huiwen(s, i, i+1, tmp=ans)
         return ans
+        
 # leetcode submit region end(Prohibit modification and deletion)
