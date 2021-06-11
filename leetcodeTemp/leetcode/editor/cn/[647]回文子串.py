@@ -54,6 +54,8 @@
 # 遍历每个中心点，然后往两边拓展
 # 时间复杂度：O(N^2)
 # 空间复杂度：O(1)
+# 		执行耗时:200 ms,击败了61.83% 的Python3用户
+# 		内存消耗:14.9 MB,击败了64.44% 的Python3用户
 class Solution:
     def is_huiwen(self, s, i, j, tmp):
         while i >= 0 and j < len(s) and s[i] == s[j]:
@@ -61,7 +63,7 @@ class Solution:
             i -= 1
             j += 1
         return tmp
-    
+
     def countSubstrings(self, s: str) -> int:
         n = len(s)
         if n <= 1:
@@ -71,5 +73,34 @@ class Solution:
             ans = self.is_huiwen(s, i, i, tmp=ans)
             ans = self.is_huiwen(s, i, i+1, tmp=ans)
         return ans
-        
+
+# 动态规划
+# 大问题是什么？一个字串是否是回文串，且有多少个这样的字串
+# 小问题呢？s[i:j]是否是回文串，去掉首尾，剩下的字串一定是回文串，这是小问题
+# 可以看到可变参数为i, j
+# 则设置dp[i][j]记录s[i:j]是否是回文串
+# 最后输出dp[i][j]中True的个数
+# 时间复杂度：O(N^2)
+# 空间复杂度：O(N^2)
+# 		执行耗时:320 ms,击败了32.90% 的Python3用户
+# 		内存消耗:22.6 MB,击败了19.49% 的Python3用户
+# class Solution:
+#     def countSubstrings(self, s: str) -> int:
+#         n = len(s)
+#         if n <= 1:
+#             return n
+#         count = 0
+#         dp = [[False]*n for _ in range(n)]
+#         for j in range(n):
+#             for i in range(j+1):
+#                 if j - i == 0:  # base case:单个字符
+#                     dp[i][j] = True
+#                     count += 1
+#                 elif j - i == 1 and s[i] == s[j]:  # base case: 2个字符
+#                     dp[i][j] = True
+#                     count += 1
+#                 elif j - i >= 2 and s[i] == s[j] and dp[i+1][j-1]:  # 转移方程
+#                     dp[i][j] = True
+#                     count += 1
+#         return count
 # leetcode submit region end(Prohibit modification and deletion)
