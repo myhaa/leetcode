@@ -51,25 +51,50 @@
 # 空间复杂度：O(1)
 # 		执行耗时:1004 ms,击败了68.76% 的Python3用户
 # 		内存消耗:15 MB,击败了65.83% 的Python3用户
+# class Solution:
+#     def is_huiwen(self, s, i, j):
+#         while i >= 0 and j < len(s) and s[i] == s[j]:
+#             i -= 1
+#             j += 1
+#         return i+1, j-1
+#
+#     def longestPalindrome(self, s: str) -> str:
+#         n = len(s)
+#         if n <= 1:
+#             return s
+#
+#         b0, e0 = 0, 0
+#         for i in range(n):
+#             b1, e1 = self.is_huiwen(s, i, i)
+#             b2, e2 = self.is_huiwen(s, i, i+1)
+#             if e1-b1 >= e0-b0:
+#                 b0, e0 = b1, e1
+#             if e2-b2 >= e0-b0:
+#                 b0, e0 = b2, e2
+#         return s[b0:e0+1]
+
+
+# 动态规划
+# 思路： 同647回文字串
+# 时间复杂度：O(N^2)
+# 空间复杂度：O(N^2)
+# 			执行耗时:9084 ms,击败了14.97% 的Python3用户
+# 			内存消耗:23.2 MB,击败了12.39% 的Python3用户
 class Solution:
-    def is_huiwen(self, s, i, j):
-        while i >= 0 and j < len(s) and s[i] == s[j]:
-            i -= 1
-            j += 1
-        return i+1, j-1
-    
     def longestPalindrome(self, s: str) -> str:
+        
         n = len(s)
         if n <= 1:
             return s
         
-        b0, e0 = 0, 0
-        for i in range(n):
-            b1, e1 = self.is_huiwen(s, i, i)
-            b2, e2 = self.is_huiwen(s, i, i+1)
-            if e1-b1 >= e0-b0:
-                b0, e0 = b1, e1
-            if e2-b2 >= e0-b0:
-                b0, e0 = b2, e2
-        return s[b0:e0+1]
+        dp = [[False for _ in range(n)] for _ in range(n)]
+        ans = ""
+        for j in range(n):
+            for i in range(j + 1):
+                dp[i][j] = (s[i] == s[j]) and (j-i < 2 or dp[i+1][j-1])
+                
+                if dp[i][j] and j-i+1 > len(ans):
+                    ans = s[i:j+1]
+        
+        return ans
 # leetcode submit region end(Prohibit modification and deletion)
