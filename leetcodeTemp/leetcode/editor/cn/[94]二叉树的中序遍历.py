@@ -67,16 +67,35 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+# class Solution:
+#     def inorder(self, root, res):
+#         if not root:
+#             return
+#         self.inorder(root.left, res)
+#         res.append(root.val)
+#         self.inorder(root.right, res)
+#
+#     def inorderTraversal(self, root: TreeNode) -> List[int]:
+#         res = []
+#         self.inorder(root, res)
+#         return res
+
+# 栈
+# 思路：将左孩子一直加到栈中
+# 时间复杂度：O(N)
+# 空间复杂度：O(N)
+# 			执行耗时:36 ms,击败了83.91% 的Python3用户
+# 			内存消耗:14.8 MB,击败了74.55% 的Python3用户
 class Solution:
-    def inorder(self, root, res):
-        if not root:
-            return
-        self.inorder(root.left, res)
-        res.append(root.val)
-        self.inorder(root.right, res)
-    
     def inorderTraversal(self, root: TreeNode) -> List[int]:
         res = []
-        self.inorder(root, res)
+        stack = []
+        while root or stack:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            res.append(root.val)
+            root = root.right
         return res
 # leetcode submit region end(Prohibit modification and deletion)
