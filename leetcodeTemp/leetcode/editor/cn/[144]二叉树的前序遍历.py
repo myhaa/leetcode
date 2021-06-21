@@ -66,16 +66,38 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+# class Solution:
+#     def preorder(self, root, res):
+#         if not root:
+#             return
+#         res.append(root.val)
+#         self.preorder(root.left, res)
+#         self.preorder(root.right, res)
+#
+#     def preorderTraversal(self, root: TreeNode) -> List[int]:
+#         res = []
+#         self.preorder(root, res)
+#         return res
+
+# 栈
+# 思路：根左右
+# 时间复杂度：O(N)
+# 空间复杂度：O(N)
+# 执行耗时:36 ms,击败了84.33% 的Python3用户
+# 内存消耗:15.1 MB,击败了5.43% 的Python3用户
+
 class Solution:
-    def preorder(self, root, res):
-        if not root:
-            return
-        res.append(root.val)
-        self.preorder(root.left, res)
-        self.preorder(root.right, res)
-    
     def preorderTraversal(self, root: TreeNode) -> List[int]:
         res = []
-        self.preorder(root, res)
+        stack = []
+        if root:
+            stack = [root]
+        while stack:
+            root = stack.pop()
+            res.append(root.val)
+            if root.right:
+                stack.append(root.right)
+            if root.left:
+                stack.append(root.left)
         return res
 # leetcode submit region end(Prohibit modification and deletion)
