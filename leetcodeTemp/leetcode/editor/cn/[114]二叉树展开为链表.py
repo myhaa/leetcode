@@ -59,24 +59,47 @@
 # 空间复杂度：O(N)
 # 		执行耗时:48 ms,击败了46.49% 的Python3用户
 # 		内存消耗:15.3 MB,击败了5.09% 的Python3用户
+# class Solution:
+#     def preorder(self, root, res):
+#         if not root:
+#             return
+#         res.append(root.val)
+#         self.preorder(root.left, res)
+#         self.preorder(root.right, res)
+#
+#     def flatten(self, root: TreeNode) -> None:
+#         """
+#         Do not return anything, modify root in-place instead.
+#         """
+#         res = []
+#         self.preorder(root, res)
+#         x = root
+#         for i in res[1:]:
+#             x.left = None
+#             x.right = TreeNode(i)
+#             x = x.right
+#         # print(res)
+
+
+# 实现O(1)空间复杂度
+# 时间复杂度：O(N)
+# 空间复杂度：O(1)
+# 		执行耗时:32 ms,击败了98.59% 的Python3用户
+# 		内存消耗:14.8 MB,击败了92.03% 的Python3用户
 class Solution:
-    def preorder(self, root, res):
-        if not root:
-            return
-        res.append(root.val)
-        self.preorder(root.left, res)
-        self.preorder(root.right, res)
-    
     def flatten(self, root: TreeNode) -> None:
         """
         Do not return anything, modify root in-place instead.
         """
-        res = []
-        self.preorder(root, res)
-        x = root
-        for i in res[1:]:
-            x.left = None
-            x.right = TreeNode(i)
-            x = x.right
-        # print(res)
+        cur = root
+        while cur:
+            if cur.left:
+                pre = nxt = cur.left
+                while pre.right:
+                    pre = pre.right
+                pre.right = cur.right
+                cur.left = None
+                cur.right = nxt
+            cur = cur.right
+            
 # leetcode submit region end(Prohibit modification and deletion)
