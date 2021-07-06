@@ -58,70 +58,46 @@
 
 # leetcode submit region begin(Prohibit modification and deletion)
 # 9:48	info: 等待结果超时
-from queue import Queue
+# 		执行耗时:48 ms,击败了14.10% 的Python3用户
+# 		内存消耗:15.2 MB,击败了5.38% 的Python3用户
+import collections
+
+
 class MyStack:
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        self.q1 = Queue()
-        self.q2 = Queue()
-        self.size = 0
-
+        self.q1 = collections.deque()
+        self.q2 = collections.deque()
 
     def push(self, x: int) -> None:
         """
         Push element x onto stack.
         """
-        if self.q1.full():
-            return
-        self.q1.put(x)
-        self.size += 1
-
+        self.q2.append(x)
+        while self.q1:
+            self.q2.append(self.q1.popleft())
+        self.q1, self.q2 = self.q2, self.q1
 
     def pop(self) -> int:
         """
         Removes the element on top of the stack and returns that element.
         """
-        if self.size <= 0:
-            return -1
-        if self.q1.empty():
-            self.q1, self.q2 = self.q2, self.q1
-        size = self.size
-        i = 1
-        x = -1
-        while i <= size:
-            x = self.q1.get()
-            if i != size:
-                self.q2.put(x)
-            i += 1
-        self.size -= 1
-        return x
+        return self.q1.popleft()
 
     def top(self) -> int:
         """
         Get the top element.
         """
-        if self.size <= 0:
-            return -1
-        if self.q1.empty():
-            self.q1, self.q2 = self.q2, self.q1
-        size = self.size
-        i = 1
-        x = -1
-        while i <= size:
-            x = self.q1.get()
-            self.q2.put(x)
-            i += 1
-        return x
-
+        return self.q1[0]
 
     def empty(self) -> bool:
         """
         Returns whether the stack is empty.
         """
-        return self.q1.empty() and self.q2.empty()
+        return not self.q1
 
 
 
