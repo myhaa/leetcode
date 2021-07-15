@@ -57,13 +57,13 @@ class Solution:
             mid = (low + high) >> 1
             if nums[mid] == target:
                 return mid
-            if nums[0] <= nums[mid]:
-                if nums[0] <= target < nums[mid]:
+            if nums[low] <= nums[mid]:
+                if nums[low] <= target < nums[mid]:
                     high = mid - 1
                 else:
                     low = mid + 1
             else:
-                if nums[mid] < target <= nums[len(nums)-1]:
+                if nums[mid] < target <= nums[high]:
                     low = mid + 1
                 else:
                     high = mid - 1
